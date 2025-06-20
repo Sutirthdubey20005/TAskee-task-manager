@@ -9,8 +9,7 @@ In the project directory, you can run:
 
 Taskee is a beautiful, fast, and responsive task manager web app built using **React**, **Firebase**, and **Tailwind CSS**. It allows users to add, view, delete, and manage tasks with priorities — all in real time.
 
-> 🚀 Live Demo: [Click here to open Taskee](https://your-vercel-domain.vercel.app)  
-> _(Replace with your actual Vercel URL)_
+> 🚀 Live Demo: [Click here to open Taskee][(https://taskee-task-manager.vercel.app/)
 
 ---
 
@@ -93,14 +92,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ### Code Splitting
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
 ### Advanced Configuration
 
