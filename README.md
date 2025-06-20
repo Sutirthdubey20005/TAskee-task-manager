@@ -113,5 +113,5 @@ This app is deployed using Vercel.
 https://taskee-task-manager.vercel.app/
 
 ### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+👨‍💻 Author
+Built with ❤️ by Sutirth
