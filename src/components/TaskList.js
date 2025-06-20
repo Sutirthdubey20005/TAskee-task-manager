@@ -5,19 +5,18 @@ import {
   onSnapshot,
   query,
   orderBy,
+  updateDoc,
+  deleteDoc,
+  doc,
 } from "firebase/firestore";
-import TaskItem from "./TaskItem"; // We will build this next
+import TaskItem from "./TaskItem";
+import TaskModal from "./TaskModal";
 
-function TaskList() {
+function TaskList({ userId }) {
   const [tasks, setTasks] = useState([]);
+  const [activeTask, setActiveTask] = useState(null);
 
-  // Map priorities to sorting weight
-  const priorityWeight = {
-    most: 1,
-    more: 2,
-    normal: 3,
-    least: 4,
-  };
+  const priorityWeight = { most: 1, more: 2, normal: 3, least: 4 };
 
   useEffect(() => {
     const q = query(collection(db, "tasks"), orderBy("createdAt", "desc"));
@@ -26,31 +25,39 @@ function TaskList() {
         id: doc.id,
         ...doc.data(),
       }));
-
-      // Sort by priority weight → then by dueDate
-      fetched.sort((a, b) => {
-        const pA = priorityWeight[a.priority] || 5;
-        const pB = priorityWeight[b.priority] || 5;
-        if (pA !== pB) return pA - pB;
-
-        const dA = a.dueDate || "";
-        const dB = b.dueDate || "";
-        return dA.localeCompare(dB);
-      });
-
-      setTasks(fetched);
+      const filtered = fetched.filter((task) => task.userId === userId);
+      filtered.sort(
+        (a, b) => (priorityWeight[a.priority] || 5) - (priorityWeight[b.priority] || 5)
+      );
+      setTasks(filtered);
     });
-
     return () => unsubscribe();
-  }, []);
+  }, [userId]);
+
+  const handleToggle = async (task) => {
+    const ref = doc(db, "tasks", task.id);
+    await updateDoc(ref, { completed: !task.completed });
+  };
+
+  const handleDelete = async (id) => {
+    await deleteDoc(doc(db, "tasks", id));
+  };
 
   return (
-    <div className="space-y-2 mt-6">
-      {tasks.length === 0 && <p className="text-gray-500 text-sm">No tasks yet.</p>}
-      {tasks.map((task) => (
-        <TaskItem key={task.id} task={task} />
-      ))}
-    </div>
+    <>
+      <div className="space-y-4 mt-6">
+        {tasks.map((task) => (
+          <TaskItem
+            key={task.id}
+            task={task}
+            handleDelete={handleDelete}
+            handleToggle={handleToggle}
+            openModal={setActiveTask}
+          />
+        ))}
+      </div>
+      <TaskModal task={activeTask} onClose={() => setActiveTask(null)} />
+    </>
   );
 }
 

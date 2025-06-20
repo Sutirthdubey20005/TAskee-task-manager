@@ -2,7 +2,7 @@ import { useState } from "react";
 import { db } from "../firebase";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 
-function AddTask() {
+function AddTask({ userId }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
@@ -10,7 +10,7 @@ function AddTask() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title.trim()) return alert("Task title is required");
+    if (!title.trim()) return;
 
     try {
       await addDoc(collection(db, "tasks"), {
@@ -20,15 +20,15 @@ function AddTask() {
         priority,
         completed: false,
         createdAt: Timestamp.now(),
+        userId: userId,
       });
 
-      // Reset form
       setTitle("");
       setDescription("");
       setDate("");
       setPriority("normal");
-    } catch (error) {
-      console.error("Error adding task:", error);
+    } catch (err) {
+      console.error("Error adding task:", err);
     }
   };
 
@@ -39,44 +39,42 @@ function AddTask() {
         placeholder="Task title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="w-full border p-2 rounded"
+        className="w-full p-3 border border-orange-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
       />
-
       <textarea
         placeholder="Description (optional)"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        className="w-full border p-2 rounded"
+        className="w-full p-3 border border-orange-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+        rows={3}
       />
-
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col sm:flex-row gap-3">
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          className="border p-2 rounded w-full"
+          className="w-full sm:w-1/2 p-3 border border-orange-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
         />
-
         <select
           value={priority}
           onChange={(e) => setPriority(e.target.value)}
-          className="border p-2 rounded w-full"
+          className="w-full sm:w-1/2 p-3 border border-orange-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
         >
           <option value="most">🔥 Most Important</option>
-          <option value="more">⚠️ More Important</option>
-          <option value="normal">✔️ Normal</option>
-          <option value="least">🕒 Least Important</option>
+          <option value="more">⭐ More Important</option>
+          <option value="normal">✅ Normal</option>
+          <option value="least">🕓 Least Important</option>
         </select>
       </div>
-
       <button
         type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+        className="w-full bg-orange-500 hover:bg-yellow-400 text-white font-bold py-3 rounded-md transition-all shadow-md"
       >
-        Add Task
+        ➕ Add Task
       </button>
     </form>
   );
 }
 
 export default AddTask;
+
