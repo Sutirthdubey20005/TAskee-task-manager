@@ -5,7 +5,52 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Available Scripts
 
 In the project directory, you can run:
+# 🗂️ Taskee - Task Manager Web Application
 
+Taskee is a beautiful, fast, and responsive task manager web app built using **React**, **Firebase**, and **Tailwind CSS**. It allows users to add, view, delete, and manage tasks with priorities — all in real time.
+
+> 🚀 Live Demo: [Click here to open Taskee](https://your-vercel-domain.vercel.app)  
+> _(Replace with your actual Vercel URL)_
+
+---
+
+## ✨ Features
+
+- 🔐 **User Authentication**
+  - Email/Password login + registration
+- 📝 **Task Management**
+  - Add, edit, delete tasks
+  - Set task priority: Most > More > Normal > Least
+  - Animated task completion checkbox
+- 📅 **Due Dates & Descriptions**
+  - Attach due date and details to every task
+- 🔁 **Real-Time Sync with Firestore**
+  - Instant updates across users/devices
+- 🎨 **Beautiful Theme Based on Logo**
+  - Custom Tailwind theme matching the Taskee branding
+- 🧑‍💻 **User-Based Task Separation**
+  - Each user sees only their own tasks
+- 📱 **Mobile Responsive**
+
+---
+
+## 🛠️ Tech Stack
+
+| Frontend   | Backend     | Styling       | Hosting     |
+|------------|-------------|---------------|-------------|
+| React      | Firebase    | Tailwind CSS  | Vercel      |
+| React Router | Firestore | Custom Theme  | GitHub Pages (optional) |
+
+---
+
+## 🔧 Project Setup
+
+```bash
+git clone https://github.com/yourusername/TAskee-task-manager.git
+cd TAskee-task-manager
+npm install
+npm start
+```
 ### `npm start`
 
 Runs the app in the development mode.\
@@ -63,7 +108,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/a
 
 ### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+🌐 Deployment
+This app is deployed using Vercel.
+https://taskee-task-manager.vercel.app/
 
 ### `npm run build` fails to minify
 
