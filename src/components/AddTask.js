@@ -7,10 +7,20 @@ function AddTask({ userId }) {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [priority, setPriority] = useState("normal");
+  const [loading, setLoading] = useState(false); // ✅ prevent rapid submits
+
+  const todayStr = new Date().toISOString().split("T")[0]; // yyyy-mm-dd
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title.trim()) return;
+    if (!title.trim() || loading) return;
+
+    if (date && date < todayStr) {
+      alert("Due date cannot be in the past.");
+      return;
+    }
+
+    setLoading(true); // ✅ disable button
 
     try {
       await addDoc(collection(db, "tasks"), {
@@ -29,6 +39,8 @@ function AddTask({ userId }) {
       setPriority("normal");
     } catch (err) {
       console.error("Error adding task:", err);
+    } finally {
+      setLoading(false); // ✅ re-enable button
     }
   };
 
@@ -39,8 +51,10 @@ function AddTask({ userId }) {
         placeholder="Task title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        required
         className="w-full p-3 border border-orange-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
       />
+
       <textarea
         placeholder="Description (optional)"
         value={description}
@@ -48,13 +62,16 @@ function AddTask({ userId }) {
         className="w-full p-3 border border-orange-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
         rows={3}
       />
+
       <div className="flex flex-col sm:flex-row gap-3">
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
+          min={todayStr} // ✅ blocks past dates
           className="w-full sm:w-1/2 p-3 border border-orange-400 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
         />
+
         <select
           value={priority}
           onChange={(e) => setPriority(e.target.value)}
@@ -66,15 +83,18 @@ function AddTask({ userId }) {
           <option value="least">🕓 Least Important</option>
         </select>
       </div>
+
       <button
         type="submit"
-        className="w-full bg-orange-500 hover:bg-yellow-400 text-white font-bold py-3 rounded-md transition-all shadow-md"
+        disabled={loading} // ✅ disables button while adding
+        className={`w-full ${
+          loading ? "bg-orange-300 cursor-not-allowed" : "bg-orange-500 hover:bg-yellow-400"
+        } text-white font-bold py-3 rounded-md transition-all shadow-md`}
       >
-        ➕ Add Task
+        {loading ? "Adding..." : "➕ Add Task"}
       </button>
     </form>
   );
 }
 
 export default AddTask;
-
